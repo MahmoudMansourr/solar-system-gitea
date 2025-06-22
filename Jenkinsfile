@@ -25,9 +25,7 @@ pipeline{
             
             stage('OWASP Dependency Check') {
                 steps {
-                    def scanPath = env.WORKSPACE
-                    def outPath = "${scanPath}/dependency-check-report"
-
+                    echo "${env.WORKSPACE}"
                     dependencyCheck additionalArguments: '''
                         --scan "${scanPath}"
                         --out "${outPath}"
