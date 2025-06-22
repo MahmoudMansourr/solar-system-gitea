@@ -25,9 +25,12 @@ pipeline{
             
             stage('OWASP Dependency Check') {
                 steps {
+                    def scanPath = env.WORKSPACE
+                    def outPath = "${scanPath}/dependency-check-report"
+
                     dependencyCheck additionalArguments: '''
-                        --scan "${env.WORKSPACE}"
-                        --out "${env.WORKSPACE}/dependency-check-report"
+                        --scan "${scanPath}"
+                        --out "${outPath}"
                         --format 'ALL'
                         --prettyPrint
                     ''', odcInstallation: 'OWASP-DepCheck-10'
