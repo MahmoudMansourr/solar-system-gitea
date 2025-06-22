@@ -12,18 +12,16 @@ pipeline{
           }
       }
 
-    stage('Dependency Scanning') {
-        parallel {
-            
-            stage('OWASP Dependency Check') {
+    stage('OWASP Dependency Check') {
                 steps {
-                    echo "Workspace: ${env.WORKSPACE}"
-                    sh "ls -la ${env.WORKSPACE}"
-                    
+                    dependencyCheck additionalArguments: '''
+                        --scan './'
+                        --out './'
+                        --format 'ALL'
+                        --prettyPrint
+                    ''', odcInstallation: 'OWASP-DepCheck-10'
                 }
             }
-        }
-    }
-      
+    
   }
 }
