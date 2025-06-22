@@ -1,0 +1,18 @@
+pipeline{
+  tools {
+      nodejs 'nodejs-22-6-0'
+  }
+  
+  
+  stages {
+      stage('Installing Dependencies') {
+          steps {
+               sh '''
+                    node -v
+                    npm -v
+                '''
+          }
+      }
+      
+  }
+}
