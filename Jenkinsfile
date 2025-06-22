@@ -25,13 +25,12 @@ pipeline{
             
             stage('OWASP Dependency Check') {
                 steps {
-                    echo "${env.WORKSPACE}"
-                    dependencyCheck additionalArguments: '''
-                        --scan '.'
-                        --out '.'
+                    dependencyCheck additionalArguments: """
+                        --scan '${env.WORKSPACE}'
+                        --out '${env.WORKSPACE}/dependency-check-report'
                         --format 'ALL'
                         --prettyPrint
-                    ''', odcInstallation: 'OWASP-DepCheck-10'
+                    """, odcInstallation: 'OWASP-DepCheck-10'
                 }
             }
         }
