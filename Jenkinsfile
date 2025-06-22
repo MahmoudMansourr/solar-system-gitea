@@ -27,8 +27,8 @@ pipeline{
                 steps {
                     echo "${env.WORKSPACE}"
                     dependencyCheck additionalArguments: '''
-                        --scan "${scanPath}"
-                        --out "${outPath}"
+                        --scan '.'
+                        --out '.'
                         --format 'ALL'
                         --prettyPrint
                     ''', odcInstallation: 'OWASP-DepCheck-10'
