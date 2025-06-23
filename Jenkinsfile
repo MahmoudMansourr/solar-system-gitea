@@ -3,10 +3,6 @@ pipeline {
     tools {
         nodejs 'nodejs-22-6-0'
     }
-
-    environment {
-        MONGO_URI = "mongodb://\${MONGO_USERNAME}:\${MONGO_PASSWORD}@mongodb-service.mongodb.svc.cluster.local:27017/mydb?authSource=admin"
-    }
     
     stages {
         stage('Installing Dependencies') {
@@ -56,7 +52,10 @@ pipeline {
         stage('Unit Tests') { 
             steps { 
                 withCredentials([usernamePassword(credentialsId: 'mongo-db-credentials', passwordVariable: 'MONGO_PASSWORD', usernameVariable: 'MONGO_USERNAME')]) {
-                    sh 'npm test'
+                    sh '''
+                        export MONGO_URI="mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb-service.mongodb.svc.cluster.local:27017/mydb?authSource=admin"
+                        npm test
+                    '''
                 }
                 junit allowEmptyResults: true, keepProperties: true, testResults: 'test-results.xml'
             } 
