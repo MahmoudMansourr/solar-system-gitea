@@ -11,6 +11,11 @@ pipeline{
             sh 'npm install --no-audit'
         }
     }
+    stage('Installing Dependencies') {
+        steps {
+            sh 'npm install --no-audit'
+        }
+    }
 
 
     stage('Dependency Scanning') {
@@ -36,9 +41,9 @@ pipeline{
                 """, odcInstallation: 'OWASP-DepCheck-10'
                 dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: true
 
-                }
             }
         }
+     }
     }
 
     stage('Unit') { 
