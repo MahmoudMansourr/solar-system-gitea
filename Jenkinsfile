@@ -26,7 +26,7 @@ pipeline{
             
             stage('OWASP Dependency Check') {
                 steps {
-                    ddependencyCheck additionalArguments: """
+                    dependencyCheck additionalArguments: """
                       --scan '${env.WORKSPACE}'
                       --out '${env.WORKSPACE}/dependency-check-report'
                       --format 'ALL'
