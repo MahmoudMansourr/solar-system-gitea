@@ -33,7 +33,7 @@ pipeline{
                       --prettyPrint
                       --noupdate
                   """, odcInstallation: 'OWASP-DepCheck-10'
-                    dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: true
+                    dependencyCheckPublisher failedTotalCritical: 1, pattern: '${env.WORKSPACE}/dependency-check-report/dependency-check-report.xml', stopBuild: true
 
                 }
             }
