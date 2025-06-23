@@ -20,7 +20,6 @@ pipeline{
                       --format 'ALL'
                       --prettyPrint
                       --noupdate
-                      --failOnError false
                   """, odcInstallation: 'OWASP-DepCheck-10'
                 }
             }
