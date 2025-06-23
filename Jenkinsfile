@@ -42,7 +42,7 @@ pipeline {
                           allowMissing: true,
                           alwaysLinkToLastBuild: true,
                           keepAll: true,
-                          reportDir: '.',Add commentMore actions
+                          reportDir: '.',
                           reportFiles: 'dependency-check-jenkins.html',
                           reportName: 'Dependency Check HTML',
                           reportTitles: '',
