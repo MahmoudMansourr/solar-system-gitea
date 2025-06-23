@@ -3,6 +3,10 @@ pipeline {
     tools {
         nodejs 'nodejs-22-6-0'
     }
+
+    environment {
+        MONGO_URI = "mongodb://\${MONGO_USERNAME}:\${MONGO_PASSWORD}@mongodb-service.mongodb.svc.cluster.local:27017/mydb?authSource=admin"
+    }
     
     stages {
         stage('Installing Dependencies') {
@@ -32,6 +36,18 @@ pipeline {
                             --noupdate
                         """, odcInstallation: 'OWASP-DepCheck-10'
                         dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: true
+                        junit allowEmptyResults: true, keepProperties: true, testResults: 'dependency-check-junit.xml'
+                    
+                        publishHTML(
+                          allowMissing: true,
+                          alwaysLinkToLastBuild: true,
+                          keepAll: true,
+                          reportDir: '.',Add commentMore actions
+                          reportFiles: 'dependency-check-jenkins.html',
+                          reportName: 'Dependency Check HTML',
+                          reportTitles: '',
+                          useWrapperFileDirectly: true
+                          )
                     }
                 }
             }
@@ -39,7 +55,10 @@ pipeline {
         
         stage('Unit Tests') { 
             steps { 
-                sh 'npm test'
+                withCredentials([usernamePassword(credentialsId: 'mongo-db-credentials', passwordVariable: 'MONGO_PASSWORD', usernameVariable: 'MONGO_USERNAME')]) {
+                    sh 'npm test'
+                }
+                junit allowEmptyResults: true, keepProperties: true, testResults: 'test-results.xml'
             } 
         }
     }
