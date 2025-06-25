@@ -3,7 +3,9 @@ pipeline {
     tools {
         nodejs 'nodejs-22-6-0'
     }
-    
+    environment {
+         MONGO_URI="mongodb://mongodb-service.mongodb.svc.cluster.local:27017/solar-system?authSource=admin"
+    }
     stages {
         stage('Installing Dependencies') {
             steps {
@@ -53,7 +55,6 @@ pipeline {
             steps { 
                 withCredentials([usernamePassword(credentialsId: 'mongo-db-credentials', passwordVariable: 'MONGO_PASSWORD', usernameVariable: 'MONGO_USERNAME')]) {
                     sh '''
-                        export MONGO_URI="mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb-service.mongodb.svc.cluster.local:27017/solar-system?authSource=admin"
                         npm test
                     '''
                 }
