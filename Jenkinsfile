@@ -1,11 +1,17 @@
 pipeline {
     agent any
+    
     tools {
         nodejs 'nodejs-22-6-0'
     }
+
     environment {
-         MONGO_URI="mongodb://mongodb-service.mongodb.svc.cluster.local:27017/solar-system?authSource=admin"
+        MONGO_URI="mongodb://mongodb-service.mongodb.svc.cluster.local:27017/solar-system?authSource=admin"
+        MONGO_DB_Creds = credentials('mongo-db-credentials')
+        MONGO_USERNAME = credentials('mongo-db-username')
+        MONGO_PASSWORD = credentials('mongo-db-password')
     }
+
     stages {
         stage('Installing Dependencies') {
             steps {
@@ -34,18 +40,9 @@ pipeline {
                             --noupdate
                         """, odcInstallation: 'OWASP-DepCheck-10'
                         dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: true
-                        junit allowEmptyResults: true, keepProperties: true, testResults: 'dependency-check-junit.xml'
+                        
                     
-                        publishHTML(
-                          allowMissing: true,
-                          alwaysLinkToLastBuild: true,
-                          keepAll: true,
-                          reportDir: '.',
-                          reportFiles: 'dependency-check-jenkins.html',
-                          reportName: 'Dependency Check HTML',
-                          reportTitles: '',
-                          useWrapperFileDirectly: true
-                          )
+                        
                     }
                 }
             }
@@ -58,7 +55,7 @@ pipeline {
                         npm test
                     '''
                 }
-                junit allowEmptyResults: true, keepProperties: true, testResults: 'test-results.xml'
+    
             } 
         }
 
@@ -69,8 +66,16 @@ pipeline {
                         sh 'npm run coverage'
                     }
                 }
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'coverage/lcov-report', reportFiles: 'index.html', reportName: 'Code Coverage HTML Report', reportTitles: '', useWrapperFileDirectly: true])
             } 
         }
     }
+
+    post {
+        always {
+            junit allowEmptyResults: true, keepProperties: true, testResults: 'dependency-check-junit.xml'
+            junit allowEmptyResults: true, keepProperties: true, testResults: 'test-results.xml'
+            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'coverage/lcov-report', reportFiles: 'index.html', reportName: 'Code Coverage HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+        }
+    } 
+
 }
