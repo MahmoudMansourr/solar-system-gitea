@@ -66,7 +66,12 @@ pipeline {
                         sh 'npm run coverage'
                     }
                 }
-            } 
+            }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t mahmoudmansourrr/solar-system:$GIT_COMMIT .'
+                }
+            }
         }
     }
 
