@@ -100,15 +100,17 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonarqube-server') {
-                    sh 'echo $SONAR_SCANNER_HOME'
-                    sh '''
-                        $SONAR_SCANNER_HOME/bin/sonar-scanner \
-                        -Dsonar.projectKey=mahmoudmansourr-solar-system \
-                        -Dsonar.sources=app.js \
-                        -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
+                container('nodejs'){
+                    withSonarQubeEnv('sonarqube-server') {
+                        sh 'echo $SONAR_SCANNER_HOME'
+                        sh '''
+                            $SONAR_SCANNER_HOME/bin/sonar-scanner \
+                            -Dsonar.projectKey=mahmoudmansourr-solar-system \
+                            -Dsonar.sources=app.js \
+                            -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
                     '''
-            }
+                    }
+                }
             }
         }
         // stage('Build Docker Image') {
