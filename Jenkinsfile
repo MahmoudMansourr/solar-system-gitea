@@ -20,6 +20,7 @@ pipeline {
           def scmVars = checkout scm
           env.GIT_COMMIT = scmVars.GIT_COMMIT
         }
+        sh "echo ${env.GIT_COMMIT}"
       }
     }
         // stage('Installing Dependencies') {
