@@ -14,18 +14,18 @@ pipeline {
 
     stages {
 
-    stage('Checkout') {
-      steps {
-        script {
-          def scmVars = checkout scm
-          env.GIT_COMMIT = scmVars.GIT_COMMIT
-        }
-      }
-    }
+    // stage('Checkout') {
+    //   steps {
+    //     script {
+    //       def scmVars = checkout scm
+    //       env.GIT_COMMIT = scmVars.GIT_COMMIT
+    //     }
+    //   }
+    // }
 
     stage('env variables') {
       steps {
-        sh "echo ${env.GIT_COMMIT}"
+        sh "echo ${GIT_COMMIT}"
       }
     }
 
