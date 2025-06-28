@@ -23,7 +23,7 @@ pipeline {
       }
     }
 
-    stage('Checkout') {
+    stage('env variables') {
       steps {
         sh "echo ${env.GIT_COMMIT}"
       }
