@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        kubernetes {
+            yamlFile 'agent-pod.yaml'
+        }
+    }
     
     tools {
         nodejs 'nodejs-22-6-0'
@@ -26,6 +30,7 @@ pipeline {
     stage('env variables') {
       steps {
         sh "echo ${GIT_COMMIT}"
+        sh "echo ${GIT_BRANCH}"
       }
     }
 
