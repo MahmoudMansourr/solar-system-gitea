@@ -100,7 +100,6 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                container('nodejs'){
                     withSonarQubeEnv('sonarqube-server') {
                         sh 'echo $SONAR_SCANNER_HOME'
                         sh '''
@@ -110,7 +109,6 @@ pipeline {
                             -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
                     '''
                     }
-                }
             }
         }
         // stage('Build Docker Image') {
