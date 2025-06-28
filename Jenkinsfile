@@ -37,7 +37,9 @@ pipeline {
 
         stage('Installing Dependencies') {
             steps {
-                sh 'npm install --no-audit'
+                container('nodejs'){
+                    sh 'npm install --no-audit'
+                }
             }
         }
         
@@ -45,10 +47,12 @@ pipeline {
             parallel {
                 stage('NPM Dependency Audit') {
                     steps {
-                        sh '''
-                            npm audit --audit-level=critical
-                            echo $?
-                        '''
+                        container('nodejs'){
+                            sh '''
+                                npm audit --audit-level=critical
+                                echo $?
+                            '''
+                        }
                     }
                 }
                 
@@ -71,10 +75,12 @@ pipeline {
         
         stage('Unit Tests') { 
             steps { 
-                withCredentials([usernamePassword(credentialsId: 'mongo-db-credentials', passwordVariable: 'MONGO_PASSWORD', usernameVariable: 'MONGO_USERNAME')]) {
-                    sh '''
-                        npm test
-                    '''
+                container('nodejs'){
+                    withCredentials([usernamePassword(credentialsId: 'mongo-db-credentials', passwordVariable: 'MONGO_PASSWORD', usernameVariable: 'MONGO_USERNAME')]) {
+                        sh '''
+                            npm test
+                        '''
+                    }
                 }
     
             } 
@@ -82,9 +88,12 @@ pipeline {
 
         stage('Code Coverage') { 
             steps { 
+                container('nodejs'){
+
                 withCredentials([usernamePassword(credentialsId: 'mongo-db-credentials', passwordVariable: 'MONGO_PASSWORD', usernameVariable: 'MONGO_USERNAME')]) {
                     catchError(buildResult: 'SUCCESS', message: 'Oops! we will fix it later', stageResult: 'UNSTABLE') {
                         sh 'npm run coverage'
+                    }
                     }
                 }
             } 
