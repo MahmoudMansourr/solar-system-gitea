@@ -5,9 +5,9 @@ pipeline {
         }
     }
     
-    // tools {
-    //     nodejs 'nodejs-22-6-0'
-    // }
+    tools {
+        nodejs 'nodejs-22-6-0'
+    }
 
     environment {
         MONGO_URI="mongodb://mongodb-service.mongodb.svc.cluster.local:27017/solar-system?authSource=admin"
