@@ -28,12 +28,12 @@ pipeline {
     //   }
     // }
 
-    stage('env variables') {
-      steps {
-        sh "echo ${GIT_COMMIT}"
-        sh "echo ${GIT_BRANCH}"
-      }
-    }
+    // stage('env variables') {
+    //   steps {
+    //     sh "echo ${GIT_COMMIT}"
+    //     sh "echo ${GIT_BRANCH}"
+    //   }
+    // }
 
         stage('Installing Dependencies') {
             steps {
