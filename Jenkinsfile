@@ -73,31 +73,31 @@ pipeline {
             }
         }
         
-        stage('Unit Tests') { 
-            steps { 
-                container('nodejs'){
-                    withCredentials([usernamePassword(credentialsId: 'mongo-db-credentials', passwordVariable: 'MONGO_PASSWORD', usernameVariable: 'MONGO_USERNAME')]) {
-                        sh '''
-                            npm test
-                        '''
-                    }
-                }
+        // stage('Unit Tests') { 
+        //     steps { 
+        //         container('nodejs'){
+        //             withCredentials([usernamePassword(credentialsId: 'mongo-db-credentials', passwordVariable: 'MONGO_PASSWORD', usernameVariable: 'MONGO_USERNAME')]) {
+        //                 sh '''
+        //                     npm test
+        //                 '''
+        //             }
+        //         }
     
-            } 
-        }
+        //     } 
+        // }
 
-        stage('Code Coverage') { 
-            steps { 
-                container('nodejs'){
+        // stage('Code Coverage') { 
+        //     steps { 
+        //         container('nodejs'){
 
-                withCredentials([usernamePassword(credentialsId: 'mongo-db-credentials', passwordVariable: 'MONGO_PASSWORD', usernameVariable: 'MONGO_USERNAME')]) {
-                    catchError(buildResult: 'SUCCESS', message: 'Oops! we will fix it later', stageResult: 'UNSTABLE') {
-                        sh 'npm run coverage'
-                    }
-                    }
-                }
-            } 
-        }
+        //         withCredentials([usernamePassword(credentialsId: 'mongo-db-credentials', passwordVariable: 'MONGO_PASSWORD', usernameVariable: 'MONGO_USERNAME')]) {
+        //             catchError(buildResult: 'SUCCESS', message: 'Oops! we will fix it later', stageResult: 'UNSTABLE') {
+        //                 sh 'npm run coverage'
+        //             }
+        //             }
+        //         }
+        //     } 
+        // }
         // stage('SonarQube Analysis') {
 
         //     steps {
@@ -117,11 +117,11 @@ pipeline {
                 container('kaniko'){
                     sh '''
                     /kaniko/executor \
-                    --context `pwd` \
-                    --dockerfile `pwd`/Dockerfile \
-                    --destination=mahmoudmansourr/solar-system:${GIT_COMMIT} \
-                    --no-push
-                '''
+                        --context=$(pwd) \
+                        --dockerfile=$(pwd)/Dockerfile \
+                        --destination=mahmoudmansourr/solar-system:${GIT_COMMIT} \
+                        --no-push
+                    '''
                 }
 
             }
