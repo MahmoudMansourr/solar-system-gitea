@@ -35,43 +35,43 @@ pipeline {
     //   }
     // }
 
-        stage('Installing Dependencies') {
-            steps {
-                container('nodejs'){
-                    sh 'npm install --no-audit'
-                }
-            }
-        }
+        // stage('Installing Dependencies') {
+        //     steps {
+        //         container('nodejs'){
+        //             sh 'npm install --no-audit'
+        //         }
+        //     }
+        // }
         
-        stage('Dependency Scanning') {
-            parallel {
-                stage('NPM Dependency Audit') {
-                    steps {
-                        container('nodejs'){
-                            sh '''
-                                npm audit --audit-level=critical
-                                echo $?
-                            '''
-                        }
-                    }
-                }
+        // stage('Dependency Scanning') {
+        //     parallel {
+        //         stage('NPM Dependency Audit') {
+        //             steps {
+        //                 container('nodejs'){
+        //                     sh '''
+        //                         npm audit --audit-level=critical
+        //                         echo $?
+        //                     '''
+        //                 }
+        //             }
+        //         }
                 
-                // stage('OWASP Dependency Check') {
-                //     steps {
-                //         dependencyCheck additionalArguments: """
-                //             --scan './'
-                //             --out './'
-                //             --format 'ALL'
-                //             --prettyPrint
-                //             --disableYarnAudit
-                //             --noupdate
-                //         """, odcInstallation: 'OWASP-DepCheck-10'
-                //         dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: true
+        //         // stage('OWASP Dependency Check') {
+        //         //     steps {
+        //         //         dependencyCheck additionalArguments: """
+        //         //             --scan './'
+        //         //             --out './'
+        //         //             --format 'ALL'
+        //         //             --prettyPrint
+        //         //             --disableYarnAudit
+        //         //             --noupdate
+        //         //         """, odcInstallation: 'OWASP-DepCheck-10'
+        //         //         dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: true
                             
-                //     }
-                // }
-            }
-        }
+        //         //     }
+        //         // }
+        //     }
+        // }
         
         // stage('Unit Tests') { 
         //     steps { 
@@ -116,6 +116,7 @@ stage('Build Docker Image') {
   steps {
     container('kaniko') {
       sh '''
+      ls
 /kaniko/executor \
   --context=$(pwd) \
   --dockerfile=$(pwd)/Dockerfile \
