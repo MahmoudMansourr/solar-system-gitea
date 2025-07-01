@@ -99,9 +99,7 @@ pipeline {
             } 
         }
         stage('SonarQube Analysis') {
-            tools {
-                nodejs 'nodejs-22-6-0'
-            }
+
             steps {
                     withSonarQubeEnv('sonarqube-server') {
                         sh 'echo $SONAR_SCANNER_HOME'
