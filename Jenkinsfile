@@ -112,11 +112,20 @@ pipeline {
                     }
             }
         }
-        // stage('Build Docker Image') {
-        //     steps {
-        //         sh 'docker build -t siddharth67/solar-system:$GIT_COMMIT .'
-        //     }
-        // }
+        stage('Build Docker Image') {
+            steps {
+                container('kaniko'){
+                    sh '''
+                    /kaniko/executor \
+                    --context `pwd` \
+                    --dockerfile `pwd`/Dockerfile \
+                    --destination=mahmoudmansourr/solar-system:${GIT_COMMIT} \
+                    --no-push
+                '''
+                }
+
+            }
+        }
     }
 
     // post {
