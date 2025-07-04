@@ -14,7 +14,7 @@ pipeline {
         MONGO_DB_Creds = credentials('mongo-db-credentials')
         MONGO_USERNAME = credentials('mongo-db-username')
         MONGO_PASSWORD = credentials('mongo-db-password')
-        SONAR_SCANNER_HOME = tool 'sonarqube-scanner-610'
+       // SONAR_SCANNER_HOME = tool 'sonarqube-scanner-610'
     }
 
     stages {
@@ -115,13 +115,9 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 container('kaniko') {
-                    sh """
-                    /kaniko/executor \
-                    --dockerfile=Dockerfile \
-                    --context=`pwd` \
-                    --destination=docker.io/mahmoudmansourr/solar-app:${GIT_COMMIT} \
-                    --no-push
-                    """
+                    sh 'echo "Kaniko container is working"'
+                    sh 'whoami'
+                    sh 'pwd'
                 }
             }
         }
