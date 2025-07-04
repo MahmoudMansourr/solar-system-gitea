@@ -115,9 +115,9 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 container('kaniko') {
-                    sh 'echo "Kaniko container is working"'
-                    sh 'whoami'
-                    sh 'pwd'
+                    sh """
+                    /kaniko/executor 
+                    """
                 }
             }
         }
