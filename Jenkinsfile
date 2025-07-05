@@ -116,10 +116,13 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 container('kaniko') {
-                    sh 'ls'
-                    // sh """
-                    // /kaniko/executor 
-                    // """
+                        sh '''
+            /kaniko/executor \
+              --context `pwd` \
+              --dockerfile `pwd`/Dockerfile \
+              --destination=${IMAGE_NAME}:${TAG} \
+              --no-push
+          '''
                 }
             }
         }
