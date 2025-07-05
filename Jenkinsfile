@@ -116,6 +116,7 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 container('kaniko') {
+                    sh 'ls'
                     // sh """
                     // /kaniko/executor 
                     // """
