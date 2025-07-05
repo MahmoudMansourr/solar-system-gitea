@@ -113,15 +113,15 @@ pipeline {
         //             }
         //     }
         // }
-        // stage('Build and Push Docker Image') {
-        //     steps {
-        //         container('kaniko') {
-        //             sh """
-        //             /kaniko/executor 
-        //             """
-        //         }
-        //     }
-        // }
+        stage('Build and Push Docker Image') {
+            steps {
+                container('kaniko') {
+                    // sh """
+                    // /kaniko/executor 
+                    // """
+                }
+            }
+        }
 
     }
 
