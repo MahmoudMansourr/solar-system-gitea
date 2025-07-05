@@ -35,13 +35,14 @@ pipeline {
     //   }
     // }
 
-        // stage('Installing Dependencies') {
-        //     steps {
-        //         container('nodejs'){
-        //             sh 'npm install --no-audit'
-        //         }
-        //     }
-        // }
+        stage('Installing Dependencies') {
+            steps {
+                container('nodejs'){
+                    sh 'ls -la'
+                    sh 'npm install --no-audit'
+                }
+            }
+        }
         
         // stage('Dependency Scanning') {
         //     parallel {
@@ -112,15 +113,15 @@ pipeline {
         //             }
         //     }
         // }
-        stage('Build and Push Docker Image') {
-            steps {
-                container('kaniko') {
-                    sh """
-                    /kaniko/executor 
-                    """
-                }
-            }
-        }
+        // stage('Build and Push Docker Image') {
+        //     steps {
+        //         container('kaniko') {
+        //             sh """
+        //             /kaniko/executor 
+        //             """
+        //         }
+        //     }
+        // }
 
     }
 
