@@ -1,7 +1,45 @@
 pipeline {
-    agent {
+         agent {
         kubernetes {
-            yamlFile 'agent-pod.yaml'
+            yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: nodejs
+    image: node:18-alpine3.17
+    command:
+    - cat
+    tty: true
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug
+    command:
+      - sleep
+    args:
+    - 99d
+    volumeMounts:
+    - name: kaniko-secret
+      mountPath: /kaniko/.docker
+  - name: git
+    image: alpine/git:latest
+    command:
+      - sleep
+    args:
+    - 99d    
+  - name: trivy
+    image: aquasec/trivy:latest
+    command:
+      - sleep
+    args:
+    - 99d
+    volumeMounts:
+    - name: kaniko-secret
+      mountPath: /root/.docker    
+  volumes:
+  - name: kaniko-secret
+    secret:
+      secretName: regcred
+"""
         }
     }
     
