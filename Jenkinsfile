@@ -116,13 +116,13 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 container('kaniko') {
-                        sh '''
-            /kaniko/executor \
-              --context `pwd` \
-              --dockerfile `pwd`/Dockerfile \
-              --destination=${IMAGE_NAME}:${TAG} \
-              --no-push
-          '''
+                      sh """
+                    /kaniko/executor \
+                    --dockerfile=Dockerfile \
+                    --context=`pwd` \
+                    --destination=docker.io/mahmoudmansourr/solar-app:latest
+                    --no-push
+                    """
                 }
             }
         }

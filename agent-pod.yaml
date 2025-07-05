@@ -10,7 +10,7 @@ spec:
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     command:
-    - sleep
+      - sleep
     args:
     - 99d
     volumeMounts:
@@ -19,18 +19,18 @@ spec:
   - name: git
     image: alpine/git:latest
     command:
-    - sleep
+      - sleep
     args:
-    - 99d
+    - 99d    
   - name: trivy
     image: aquasec/trivy:latest
     command:
-    - sleep
+      - sleep
     args:
     - 99d
     volumeMounts:
     - name: kaniko-secret
-      mountPath: /root/.docker
+      mountPath: /root/.docker    
   volumes:
   - name: kaniko-secret
     secret:
